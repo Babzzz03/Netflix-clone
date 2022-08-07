@@ -1,0 +1,1 @@
+      {searchKeyClicked ? searchMovie.map((movie) =>( <SearchPage movie={movie} />)) : null} 
