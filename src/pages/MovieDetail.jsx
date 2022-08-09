@@ -4,7 +4,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import YouTube from 'react-youtube';
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
-import { fetchSpecificDataBySearch, removeSelectedMoviesOrShow } from '../store';
+import { BsFillStarFill, BsFillSuitHeartFill , BsAlarmFill } from "react-icons/bs";
+import {
+  fetchSpecificDataBySearch,
+  removeSelectedMoviesOrShow
+ 
+} from "../store";
+import Loader from './Loader';
 
 export default function MovieDetail() {
  
@@ -36,9 +42,15 @@ const trailer = selectMoviesOrShow.videos.results.find(
   (vid) => vid.name === "Official Trailer"
 );
 
+const teaser = selectMoviesOrShow.videos.results.find(
+  (vid) => vid.name === "Official Teaser"
+);
+
+const key = trailer ? trailer?.key : teaser?.key
+
  return (
    <YouTube
-     videoId={trailer?.key}
+     videoId={key}
      style={{
        position: "absolute",
        display: "flex",
@@ -63,50 +75,59 @@ const trailer = selectMoviesOrShow.videos.results.find(
    
   return (
     <>
-      {Object.keys(selectMoviesOrShow).length === 0 ? 
-     ( <div>...Loading</div>) : (
-      <Container
-        style={{
-          backgroundSize: "cover",
-          backgroundImage: `url('https://image.tmdb.org/t/p/original/${selectMoviesOrShow?.backdrop_path}')`,
-          backgroundPosition: "center center",
-        }}
-      >
-        <ContainerWrapper>
-          <Left>
-            <MovieTitle>{selectMoviesOrShow.original_title}</MovieTitle>
-            <MovieRating>
-              <Rating>
-                Netflix Rating # : {selectMoviesOrShow.popularity}
-              </Rating>
-              <Rating>Netflix Votes # : {selectMoviesOrShow.vote_count}</Rating>
-              <Rating>Runtime # : {selectMoviesOrShow.runtime}</Rating>
-              <Rating>Year # : {selectMoviesOrShow.release_date}</Rating>
-            </MovieRating>
-            <MoviePlot>{selectMoviesOrShow.overview}</MoviePlot>
-            <MovieInfo>
-              <div>
-                <span>Genres</span>
+      {Object.keys(selectMoviesOrShow).length === 0 ? (
+        <Loader/>
+      ) : (
+        <Container
+          style={{
+            backgroundSize: "cover",
+            backgroundImage: `url('https://image.tmdb.org/t/p/original/${selectMoviesOrShow?.backdrop_path}')`,
+            backgroundPosition: "center center",
+          }}
+        >
+          <ContainerWrapper>
+            <Left>
+              <MovieTitle>{selectMoviesOrShow.original_title}</MovieTitle>
+              <MovieRating>
+                <Rating>
+                  Netflix Rating <BsFillStarFill className='about-icon' />:{" "}
+                  {selectMoviesOrShow.popularity}
+                </Rating>
+                <Rating>
+                  Netflix Votes <BsFillSuitHeartFill className='about-icon' /> :{" "}
+                  {selectMoviesOrShow.vote_count}
+                </Rating>
+                <Rating>
+                  Runtime <BsAlarmFill className='about-icon' /> :{" "}
+                  {selectMoviesOrShow.runtime}
+                </Rating>
+                <Rating>
+                  Year <i class="fa-solid fa-calendar"></i> :{" "}
+                  {selectMoviesOrShow.release_date}
+                </Rating>
+              </MovieRating>
+              <MoviePlot>{selectMoviesOrShow.overview}</MoviePlot>
+              <MovieInfo>
+                <div>
+                  <span>Genres</span>
 
-                {selectMoviesOrShow.genres?.map((genre, index) => (
-                  <span key={index}>{genre.name}</span>
-                ))}
-              </div>
-              <div>
-                <span>Languages</span>
+                  {selectMoviesOrShow.genres?.map((genre, index) => (
+                    <span key={index}>{genre.name}</span>
+                  ))}
+                </div>
+                <div>
+                  <span>Languages</span>
 
-                {selectMoviesOrShow.spoken_languages?.map((genre, index) => (
-                  <span key={index}>{genre.name}</span>
-                ))}
-              </div>
-            </MovieInfo>
-          </Left>
-          <Right>{selectMoviesOrShow.videos ? renderTrailer() : null}</Right>
-        </ContainerWrapper>
-      </Container>
-      )
-    }
-
+                  {selectMoviesOrShow.spoken_languages?.map((genre, index) => (
+                    <span key={index}>{genre.name}</span>
+                  ))}
+                </div>
+              </MovieInfo>
+            </Left>
+            <Right>{selectMoviesOrShow.videos ? renderTrailer() : null}</Right>
+          </ContainerWrapper>
+        </Container>
+      )}
     </>
   );
 }
@@ -148,9 +169,15 @@ display: flex;
 
 
 const Rating = styled.span`
-margin-right: 20px;
-
-
+  margin-right: 20px;
+  .about-icon {
+    color: #e84646;
+    margin-right: 2px;
+  }
+  i {
+    color: #e84646;
+    margin-right: 2px;
+  }
 `;
 
 

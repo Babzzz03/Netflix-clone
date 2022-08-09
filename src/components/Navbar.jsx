@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import React, { useState } from "react";
+import styled from "styled-components";
 import logo from "../assets/netflix-logo.png";
-import { Link, useNavigate } from 'react-router-dom';
-import { FaPowerOff, FaSearch } from 'react-icons/fa';
+import { Link, useNavigate } from "react-router-dom";
+import { FaPowerOff, FaSearch } from "react-icons/fa";
 import { firebaseAuth } from "../utils/firebase-config";
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import axios from 'axios';
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import axios from "axios";
 import { API_KEY, TMDB_BASE_URL } from "../utils/constants";
-import SearchPage from '../pages/SearchPage';
-import { fetchDataBySearch } from '../store';
-import { useDispatch, useSelector } from 'react-redux';
+import SearchPage from "../pages/SearchPage";
+import { fetchDataBySearch } from "../store";
+import { useDispatch, useSelector } from "react-redux";
 export default function Navbar({ isScrolled }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const links = [
     { name: "Home", link: "/" },
     { name: "Tv Shows", link: "/tv" },
@@ -19,91 +19,81 @@ export default function Navbar({ isScrolled }) {
     { name: "My List", link: "/mylist" },
   ];
 
- onAuthStateChanged(firebaseAuth, (currentUser) => {
-   if (!currentUser) navigate("/login");
- });
+  onAuthStateChanged(firebaseAuth, (currentUser) => {
+    if (!currentUser) navigate("/login");
+  });
 
+  const [showSearch, setShowSearch] = useState(false);
+  const [inputHover, setInputHover] = useState(false);
+  const [searchKeyClicked, setSearchKeyClicked] = useState(false);
+  const [searchKey, setSearchKey] = useState("");
+  const [searchMovie, setSearchMovie] = useState([]);
 
-const [showSearch, setShowSearch] = useState(false);
-const [inputHover, setInputHover] = useState(false);
-const [searchKeyClicked, setSearchKeyClicked] = useState(false);
-const [searchKey, setSearchKey] = useState('');
-const [searchMovie, setSearchMovie] = useState([]);
+  const genresLoaded = useSelector((state) => state.netflix.genres);
+  const movies = useSelector((state) => state.netflix.movies);
+  const genres = useSelector((state) => state.netflix.genres);
 
+  const dispatch = useDispatch();
 
+  const searchMovies = (e) => {
+    e.preventDefault();
+    searchKey && dispatch(fetchDataBySearch({ searchKey }));
 
+    searchKey && navigate("/search");
+   
+  };
 
- const genresLoaded = useSelector((state) => state.netflix.genres);
- const movies = useSelector((state) => state.netflix.movies);
- const genres = useSelector((state) => state.netflix.genres);
-
- const dispatch = useDispatch();
-
-
-const searchMovies = (e) => {
-e.preventDefault();
-searchKey && dispatch(fetchDataBySearch({ searchKey }));
-
-searchKey && navigate("/search");
-setSearchKey("")
-
-}
-
-
-console.log(movies)
-console.log(searchKey);
+  console.log(movies);
+  console.log(searchKey);
 
   return (
     <Container>
       <nav className={`flex ${isScrolled ? "scrolled" : ""}`}>
-       
-          <div className="left flex a-center">
-            <div className="brand flex a-center j-center">
-              <img src={logo} alt="logo" />
-            </div>
-            <ul className="links flex">
-              {links?.map(({ name, link }) => {
-                return (
-                  <li key={name}>
-                    <Link to={link}>{name}</Link>
-                  </li>
-                );
-              })}
-            </ul>
+        <div className="left flex a-center">
+          <div className="brand flex a-center j-center">
+            <img src={logo} alt="logo" />
           </div>
-          <div className="right flex a-center">
-            <form
-              className={`search ${showSearch ? "show-search" : ""} `}
-              onSubmit={searchMovies}
+          <ul className="links flex">
+            {links?.map(({ name, link }) => {
+              return (
+                <li key={name}>
+                  <Link to={link}>{name}</Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div className="right flex a-center">
+          <form
+            className={`search ${showSearch ? "show-search" : ""} `}
+            onSubmit={searchMovies}
+          >
+            <button
+              type={"submit"}
+              onFocus={() => setShowSearch(true)}
+              onBlur={() => {
+                if (!inputHover) setShowSearch(false);
+              }}
             >
-              <button
-                type={"submit"}
-                onFocus={() => setShowSearch(true)}
-                onBlur={() => {
-                  if (!inputHover) setShowSearch(false);
-                }}
-              >
-                <FaSearch />
-              </button>
-              <input
-                type="text"
-                placeholder="Search"
-                value={searchKey}
-                onMouseEnter={() => setInputHover(true)}
-                onMouseLeave={() => setInputHover(false)}
-                onBlur={() => {
-                  setShowSearch(false);
-                  setInputHover(false);
-                }}
-                onChange={(e) => setSearchKey(e.target.value)}
-              />
-            </form>
-            <button onClick={() => signOut(firebaseAuth)}>
-              <FaPowerOff />
+              <FaSearch />
             </button>
-          </div>
-       
-
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchKey}
+              onMouseEnter={() => setInputHover(true)}
+              onMouseLeave={() => setInputHover(false)}
+              onBlur={() => {
+                setShowSearch(false);
+                setInputHover(false);
+              }}
+              onChange={(e) => setSearchKey(e.target.value)}
+            />
+          </form>
+          <button onClick={() => signOut(firebaseAuth)}>
+            <FaPowerOff />
+          </button>
+        </div>
       </nav>
     </Container>
   );

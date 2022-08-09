@@ -4,11 +4,12 @@ import CardSlider from './CardSlider'
 export default function Slider({movies}) {
 
 
+console.log(movies)
 
 
+  const getMoviesFromRange = (from, to) => {
 
-  const getMoviesFromRange = (from,to) => {
-    return movies?.slice(from, to);
+    return  movies?.slice(from, to)
   }
 
 

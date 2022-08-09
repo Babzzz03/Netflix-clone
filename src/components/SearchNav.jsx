@@ -35,17 +35,11 @@ export default function SearchNav({ isScrolled }) {
 
   const dispatch = useDispatch();
 
-
-
-
-
   const searchMovies = (e) => {
     e.preventDefault();
-    dispatch(fetchDataBySearch({ searchKey }));
+   searchKey && dispatch(fetchDataBySearch({ searchKey }));
 
-  
-  
-    setSearchKey("");
+    
   };
 
   console.log(movies);

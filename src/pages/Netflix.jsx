@@ -14,15 +14,18 @@ import Slider  from "react-slick";
 export default function Netflix() {
     const [isScrolled, setIsScrolled] = useState(false)
 const navigate = useNavigate();
-const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
-const movies = useSelector((state) => state.netflix.movies);
+const genresLoaded = useSelector((state) => state.netflix?.genresLoaded);
+const movies = useSelector((state) => state.netflix?.movies);
 const [homeMovie, setHomeMovie] = useState([])
 
 
 const dispatch = useDispatch();
 
 useEffect(() => {
- dispatch(getGenres())
+ 
+     dispatch(getGenres());
+  
+
 }, []);
 
 useEffect(() => {
@@ -46,13 +49,7 @@ function trauncate(string, n) {
 
 
 
-   var settings = {
-     dots: false,
-     infinite: true,
-     speed: 500,
-     slidesToShow: 4,
-     slidesToScroll: 3,
-   };
+
 
 
 

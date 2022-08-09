@@ -46,7 +46,7 @@ export default function CardSlider({data, title}) {
 
         <div className="flex slider" >
         
-            {data.map((movie, index) => {
+            {data?.map((movie, index) => {
               return <Card movieData={movie} index={index} key={movie.id} />;
             })}
          
