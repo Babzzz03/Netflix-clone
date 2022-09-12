@@ -162,6 +162,9 @@ const NetflixSlice = createSlice({
     reducers: {
       removeSelectedMoviesOrShow: (state) => {
         state.selectMoviesOrShow = {};
+      },
+       removeMoviesOrShow: (state) => {
+        state.movies = [];
       }
     },
     extraReducers: (builder) => {
@@ -207,4 +210,4 @@ export const store = configureStore({
 });
 
 
-export const { removeSelectedMoviesOrShow } = NetflixSlice.actions;
+export const { removeSelectedMoviesOrShow, removeMoviesOrShow } = NetflixSlice.actions;

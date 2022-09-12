@@ -120,6 +120,10 @@ const Container = styled.div`
   height: 100%;
   cursor: pointer;
   position: relative;
+  @media (max-width: 670px) {
+    max-width: 190px;
+    width: 190px;
+  }
   img {
     border-radius: 0.2rem;
     width: 100%;
@@ -138,19 +142,29 @@ const Container = styled.div`
     box-shadow: rgba(0, 0, 0, 0.75) 0px 3px 10px;
     background-color: #181818;
     transition: 0.3s ease-in-out;
+    @media (max-width: 790px) {
+      width: 14rem;
+      top: -4vh;
+    }
     .image-video-container {
       position: relative;
 
       height: 140px;
+      @media (max-width: 790px) {
+        height: 90px;
+      }
       img {
         width: 100%;
         height: 140px;
-       
+
         object-fit: cover;
         border-radius: 0.3rem;
         top: 0;
         z-index: 4;
         position: absolute;
+        @media (max-width: 790px) {
+          height: 90px;
+        }
       }
       video {
         width: 100%;
@@ -165,19 +179,32 @@ const Container = styled.div`
     .info-container {
       padding: 1rem;
       gap: 0.5rem;
+      @media (max-width: 790px) {
+        padding: 0.4rem;
+        gap: 0.1rem;
+      }
       h3 {
         font-size: 1rem;
+        @media (max-width: 790px) {
+          font-size: 0.7rem;
+        }
       }
     }
     .icons {
       .controls {
         display: flex;
         gap: 1rem;
+        @media (max-width: 790px) {
+          gap: 0.7rem;
+        }
       }
       svg {
         font-size: 1.4rem;
         cursor: pointer;
         transition: 0.3s ease-in-out;
+        @media (max-width: 790px) {
+          font-size: 0.8rem;
+        }
         &:hover {
           color: #b8b8b8;
         }
@@ -186,6 +213,9 @@ const Container = styled.div`
     .genres {
       ul {
         gap: 1rem;
+        @media (max-width: 790px) {
+          gap: 0.4rem;
+        }
         li {
           padding-right: 0.7rem;
           font-size: 0.8rem;

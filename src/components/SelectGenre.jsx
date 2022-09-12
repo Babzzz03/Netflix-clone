@@ -23,10 +23,12 @@ export default function SelectGenre({genres, type}) {
 
 
 const Select = styled.select`
-margin-left: 5rem;
-cursor: pointer;
-font-size: 1rem;
-background-color: rgba(0,0,0,0.4);
-color: white;
-
-`
+  margin-left: 5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  @media (max-width: 744px) {
+    margin-left: 1rem;
+  }
+`;

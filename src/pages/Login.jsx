@@ -98,6 +98,12 @@ const Container = styled.div`
         width: 25vw;
         gap: 2rem;
         color: white;
+        @media (max-width: 1040px) {
+          width: 49vh;
+        }
+        @media (max-width: 744px) {
+          width: 45vh;
+        }
         .container {
           gap: 2rem;
           input {

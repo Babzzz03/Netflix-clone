@@ -66,10 +66,16 @@ const Container = styled.div`
   position: relative;
   z-index: 1;
   padding: 3rem 0;
-
+  @media (max-width: 670px) {
+    padding: 1rem 0;
+  }
   h2 {
     margin-left: 20px;
     font-size: 2rem;
+    @media (max-width: 670px) {
+      margin-left: 14px;
+      font-size: 1.3rem;
+    }
   }
   .wrapper {
     .slider {
@@ -79,6 +85,9 @@ const Container = styled.div`
       transition: 0.3s ease-in-out;
 
       margin-left: 50px;
+      @media (max-width: 670px) {
+        margin-left: 10px;
+      }
     }
     .slider-action {
       position: absolute;

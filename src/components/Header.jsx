@@ -24,7 +24,9 @@ const Container = styled.div`
   .logo {
     img {
       height: 2rem;
-
+      @media (max-width: 744px) {
+        height: 1.2rem;
+      }
     }
   }
   button {
@@ -37,6 +39,10 @@ const Container = styled.div`
     font-weight: bolder;
     font-size: 1.05rem;
     transition: 0.5s ease;
+    @media (max-width: 744px) {
+      padding: 0.3rem 0.7rem;
+      font-size: 0.9rem;
+    }
   }
   button:hover {
     transform: scale(1.1);

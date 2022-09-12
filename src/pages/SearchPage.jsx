@@ -106,15 +106,19 @@ const Container = styled.div`
     gap: 3rem;
     h1 {
       margin-left: 3rem;
+      @media (max-width: 40em) {
+        margin-left: 0.7rem;
+        font-size: 14px;
+      }
     }
     .grid {
       flex-wrap: wrap;
-      
+
       gap: 1rem;
     }
   }
 
-  .flex2{
+  .flex2 {
     display: flex;
     align-items: center;
     justify-content: center;

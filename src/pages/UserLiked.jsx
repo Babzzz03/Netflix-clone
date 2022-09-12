@@ -61,18 +61,23 @@ onAuthStateChanged(firebaseAuth, (currentUser) => {
 
 
 const Container = styled.div`
-    .content {
-        margin: 2.3rem;
-        margin-top: 8rem;
-        gap: 3rem;
-        h1 {
-            margin-left: 3rem;
-        }
-        .grid {
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
+  .content {
+    margin: 2.3rem;
+    margin-top: 8rem;
+    gap: 3rem;
+    h1 {
+      margin-left: 3rem;
+      @media (max-width: 744em) {
+        margin-left: 0.2rem;
+        font-size: 15px;
+      }
     }
-
-
-`
+    .grid {
+      flex-wrap: wrap;
+      gap: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+`;

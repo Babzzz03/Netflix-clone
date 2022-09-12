@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMovies, getGenres } from '../store';
+import { fetchMovies, getGenres, removeMoviesOrShow } from '../store';
 import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseAuth } from '../utils/firebase-config';
 import styled from 'styled-components';
@@ -24,7 +24,11 @@ export default function Movies() {
     }, []);
 
     useEffect(() => {
+      dispatch(removeMoviesOrShow());
       if (genresLoaded) dispatch(fetchMovies({ type: "movies" }));
+       return () => {
+         dispatch(removeMoviesOrShow());
+       }
     }, [genresLoaded]);
 
     window.onscroll = () => {
@@ -56,9 +60,12 @@ const Container = styled.div`
   .data {
     margin-top: 8rem;
     .not-available {
-        text-align: center;
-        color: white;
-        margin-top: 4rem;
+      text-align: center;
+      color: white;
+      margin-top: 4rem;
+      @media (max-width: 744px) {
+       font-size: 14px;
+      }
     }
-  }  
-`
+  }
+`;

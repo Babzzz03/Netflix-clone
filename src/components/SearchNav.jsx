@@ -113,16 +113,50 @@ const Container = styled.div`
     padding: 0 4rem;
     align-items: center;
     transition: 0.3s ease-in-out;
+    @media (max-width: 60em) {
+      height: 19vh;
+      top: -4vh;
+    }
+    @media (max-width: 40em) {
+      height: 18vh;
+      top: -5vh;
+    }
+    @media (max-width: 30em) {
+      padding: 0 1rem;
+    }
     .left {
       gap: 2rem;
       .brand {
         img {
           height: 2rem;
+          @media (max-width: 60em) {
+            height: 1.5rem;
+          }
+          @media (max-width: 40em) {
+            height: 1.1rem;
+          }
         }
       }
       .links {
         list-style-type: none;
         gap: 2rem;
+        @media (max-width: 60em) {
+          position: absolute;
+          top: 13vh;
+          display: flex;
+          font-size: 1rem;
+          justify-content: center;
+          align-items: center;
+          width: 88%;
+        }
+
+        @media (max-width: 40em) {
+          top: 13vh;
+
+          font-size: 0.9rem;
+
+         
+        }
         li {
           a {
             color: white;
@@ -143,6 +177,9 @@ const Container = styled.div`
         svg {
           color: #f34242;
           font-size: 1.2rem;
+          @media (max-width: 40em) {
+            font-size: 1rem;
+          }
         }
       }
       .search {
@@ -179,6 +216,9 @@ const Container = styled.div`
           opacity: 1;
           visibility: visible;
           padding: 0.3rem;
+          @media (max-width: 40em) {
+            padding: 0.1rem;
+          }
         }
       }
     }

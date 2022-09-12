@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMovies, getGenres } from '../store';
 import Sliders from '../components/Slider';
 import Slider  from "react-slick";
+import Footer from '../components/Footer';
 
 export default function Netflix() {
     const [isScrolled, setIsScrolled] = useState(false)
@@ -64,7 +65,9 @@ function trauncate(string, n) {
       >
         <Navbar isScrolled={isScrolled} />
         <div className="banner-content">
-          <h1 className="banner-title">{homeMovie?.name}</h1>
+          <h1 className="banner-title">
+            {trauncate(`${homeMovie?.name}`, 20)}
+          </h1>
           <div className="banner-buttons">
             <button onClick={() => navigate(`/movie/${homeMovie?.id}`)}>
               Play
@@ -79,6 +82,7 @@ function trauncate(string, n) {
       </Container>
 
       <Sliders movies={movies}></Sliders>
+      <Footer />
     </div>
   );
 }
@@ -97,6 +101,9 @@ const Container = styled.div`
       font-size: 3rem;
       font-weight: 800;
       padding-bottom: 0.3rem;
+      @media (max-width: 670px) {
+        font-size: 2rem;
+      }
     }
     .banner-description {
       width: 45rem;
@@ -105,6 +112,10 @@ const Container = styled.div`
       font-size: 0.7rem;
       max-width: 360px;
       height: 80px;
+      @media (max-width: 670px) {
+        max-width: 260px;
+        padding-top: 0.4rem;
+      }
     }
     .banner-buttons {
       button {
@@ -125,7 +136,13 @@ const Container = styled.div`
           background-color: #e6e6e6;
           transition: all 0.2s;
         }
+        @media (max-width: 670px) {
+          font-size: 10px;
+        }
       }
+    }
+    @media (max-width: 670px) {
+      margin-left: 1rem;
     }
   }
   .banner-fadeBottom {
@@ -136,5 +153,20 @@ const Container = styled.div`
       rgba(37, 37, 37, 0.61),
       #111
     );
+    @media (max-width: 744px) {
+      height: 18rem;
+    }
+    @media (max-width: 490px) {
+      height: 20rem;
+    }
+    @media (max-width: 460px) {
+      height: 17rem;
+    }
+    @media (max-width: 412px) {
+      height: 23rem;
+    }
+    @media (max-width: 360px) {
+      height: 12rem;
+    }
   }
 `;
