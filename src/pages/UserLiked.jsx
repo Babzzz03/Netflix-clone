@@ -67,7 +67,8 @@ const Container = styled.div`
     gap: 3rem;
     h1 {
       margin-left: 3rem;
-      @media (max-width: 744em) {
+        font-size: 30px;
+      @media (max-width: 744px) {
         margin-left: 0.2rem;
         font-size: 15px;
       }

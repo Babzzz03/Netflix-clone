@@ -134,7 +134,7 @@ export const fetchDataBySearch = createAsyncThunk(
 
 
 export const getUserLikedMovies = createAsyncThunk('netflix/getLiked', async (email) => {
-  const {data:{movies}} = await axios.get(`http://localhost:5000/api/user/liked/${email}`);
+  const {data:{movies}} = await axios.get(`https://tame-rose-lobster-ring.cyclic.app/api/user/liked/${email}`);
 
 return movies
 }
@@ -147,9 +147,13 @@ export const removeFromLikedMovies = createAsyncThunk(
   async ({email, movieId}) => {
     const {
       data: { movies },
-    } = await axios.put(`http://localhost:5000/api/user/delete}`, {
-      email,movieId
-    });
+    } = await axios.put(
+      `https://tame-rose-lobster-ring.cyclic.app/api/user/delete`,
+      {
+        email,
+        movieId,
+      }
+    );
 
     return movies;
   }

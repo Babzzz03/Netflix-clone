@@ -27,7 +27,10 @@ const navigate = useNavigate();
 
  const addToList = async () => {
   try {
-await axios.post('http://localhost:5000/api/user/add', { email, data:movieData })
+await axios.post("https://tame-rose-lobster-ring.cyclic.app/api/user/add", {
+  email,
+  data: movieData,
+});
   } catch(err){
 
   }
