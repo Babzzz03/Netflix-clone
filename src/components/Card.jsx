@@ -25,12 +25,17 @@ const navigate = useNavigate();
    else navigate('/login')
  });
 
+    const config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
  const addToList = async () => {
   try {
 await axios.post("https://tame-rose-lobster-ring.cyclic.app/api/user/add", {
   email,
   data: movieData,
-});
+}, config);
   } catch(err){
 
   }

@@ -1,7 +1,11 @@
 import { configureStore,createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { API_KEY, TMDB_BASE_URL } from "../utils/constants";
-
+   const config = {
+     headers: {
+       Authorization: "Bearer " + localStorage.getItem("token"),
+     },
+   };
 
 const initialState = {
   movies: [],
@@ -134,12 +138,13 @@ export const fetchDataBySearch = createAsyncThunk(
 
 
 export const getUserLikedMovies = createAsyncThunk('netflix/getLiked', async (email) => {
-  const {data:{movies}} = await axios.get(`https://tame-rose-lobster-ring.cyclic.app/api/user/liked/${email}`);
+  const {data:{movies}} = await axios.get(`https://tame-rose-lobster-ring.cyclic.app/api/user/liked/${email}`, config);
 
 return movies
 }
 
 )
+
 
 
 export const removeFromLikedMovies = createAsyncThunk(
@@ -152,7 +157,7 @@ export const removeFromLikedMovies = createAsyncThunk(
       {
         email,
         movieId,
-      }
+      }, config
     );
 
     return movies;
