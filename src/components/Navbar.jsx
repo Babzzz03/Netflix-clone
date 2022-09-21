@@ -43,25 +43,27 @@ export default function Navbar({ isScrolled }) {
    
   };
 
-  console.log(movies);
-  console.log(searchKey);
+
+  console.log(showSearch);
 
   return (
     <Container>
       <nav className={`flex ${isScrolled ? "scrolled" : ""}`}>
-        <div className="left flex a-center">
+        <div className="left flex a-center ">
           <div className="brand flex a-center j-center">
             <img src={logo} alt="logo" />
           </div>
-          <ul className="links flex">
-            {links?.map(({ name, link }) => {
-              return (
-                <li key={name}>
-                  <Link to={link}>{name}</Link>
-                </li>
-              );
-            })}
-          </ul>
+         
+            <ul className="links flex">
+              {links?.map(({ name, link }) => {
+                return (
+                  <li key={name}>
+                    <Link to={link}>{name}</Link>
+                  </li>
+                );
+              })}
+            </ul>
+        
         </div>
         <div className="right flex a-center">
           <form
@@ -81,12 +83,16 @@ export default function Navbar({ isScrolled }) {
               type="text"
               placeholder="Search"
               value={searchKey}
-              onMouseEnter={() => setInputHover(true)}
+              onMouseEnter={() => {
+                setInputHover(true);
+                setShowSearch(true);
+              }}
               onMouseLeave={() => setInputHover(false)}
               onBlur={() => {
                 setShowSearch(false);
                 setInputHover(false);
               }}
+              onClick={() => setShowSearch(true)}
               onChange={(e) => setSearchKey(e.target.value)}
             />
           </form>
@@ -160,8 +166,11 @@ const Container = styled.div`
           top: 13vh;
 
           font-size: 0.9rem;
-
+          
           width: 84%;
+        }
+        @media (max-width: 30em) {
+          width: 87%;
         }
 
         li {
@@ -198,6 +207,7 @@ const Container = styled.div`
         padding-left: 0.5rem;
         button {
           background-color: transparent;
+
           svg {
             color: white;
           }
@@ -223,6 +233,7 @@ const Container = styled.div`
           opacity: 1;
           visibility: visible;
           padding: 0.3rem;
+
           @media (max-width: 40em) {
             padding: 0.1rem;
           }
@@ -238,3 +249,5 @@ const Container = styled.div`
     background-color: rgba(0, 0, 0, 0.6);
   }
 `;
+
+
