@@ -80,8 +80,12 @@ export default function SearchNav({ isScrolled }) {
               type="text"
               placeholder="Search"
               value={searchKey}
-              onMouseEnter={() => setInputHover(true)}
+              onMouseEnter={() => {
+                setInputHover(true);
+                setShowSearch(true);
+              }}
               onMouseLeave={() => setInputHover(false)}
+              onClick={() => setShowSearch(true)}
               onBlur={() => {
                 setShowSearch(false);
                 setInputHover(false);
@@ -99,13 +103,16 @@ export default function SearchNav({ isScrolled }) {
 }
 
 const Container = styled.div`
+  position: fixed;
+  z-index: 1000;
+
   .scrolled {
     background-color: black;
   }
   nav {
     position: sticky;
     top: 0;
-    height: 6.5rem;
+    height: 13vh;
     width: 100%;
     justify-content: space-between;
     position: fixed;
@@ -124,6 +131,7 @@ const Container = styled.div`
     @media (max-width: 30em) {
       padding: 0 1rem;
     }
+
     .left {
       gap: 2rem;
       .brand {
@@ -140,6 +148,7 @@ const Container = styled.div`
       .links {
         list-style-type: none;
         gap: 2rem;
+
         @media (max-width: 60em) {
           position: absolute;
           top: 13vh;
@@ -155,8 +164,12 @@ const Container = styled.div`
 
           font-size: 0.9rem;
 
-         
+          width: 84%;
         }
+        @media (max-width: 30em) {
+          width: 87%;
+        }
+
         li {
           a {
             color: white;
@@ -191,6 +204,7 @@ const Container = styled.div`
         padding-left: 0.5rem;
         button {
           background-color: transparent;
+
           svg {
             color: white;
           }
@@ -216,6 +230,7 @@ const Container = styled.div`
           opacity: 1;
           visibility: visible;
           padding: 0.3rem;
+
           @media (max-width: 40em) {
             padding: 0.1rem;
           }
