@@ -79,6 +79,7 @@ function trauncate(string, n) {
           </h1>
         </div>
         <div className="banner-fadeBottom" />
+        <div className="banner-fadeBottom2" />
       </Container>
 
       <Sliders movies={movies}></Sliders>
@@ -94,6 +95,9 @@ const Container = styled.div`
   color: white;
   object-fit: contain;
   .banner-content {
+    position: absolute;
+    z-index: 3;
+
     padding-top: 12rem;
     margin-left: 4rem;
     height: 190px;
@@ -101,6 +105,9 @@ const Container = styled.div`
       font-size: 3rem;
       font-weight: 800;
       padding-bottom: 0.3rem;
+      @media (max-width: 820px) {
+        font-size: 3rem;
+      }
       @media (max-width: 670px) {
         font-size: 2rem;
       }
@@ -144,15 +151,42 @@ const Container = styled.div`
     @media (max-width: 670px) {
       margin-left: 1rem;
     }
+    @media (max-width: 840px) {
+      padding-top: 27rem;
+    }
+    @media (max-width: 540px) {
+      padding-top: 16rem;
+    }
+    @media (max-width: 480px) {
+      padding-top: 12rem;
+    }
+
+    @media (max-width: 414px) {
+      padding-top: 18rem;
+    }
+    @media (max-width: 400px) {
+      padding-top: 17rem;
+    }
+    @media (max-width: 380px) {
+      padding-top: 14rem;
+    }
+    @media (max-width: 300px) {
+      padding-top: 14rem;
+    }
+    @media (max-width: 290px) {
+      padding-top: 13rem;
+    }
   }
-  .banner-fadeBottom {
+  /* .banner-fadeBottom {
     height: 11rem;
+
     background-image: linear-gradient(
       180deg,
       transparent,
       rgba(37, 37, 37, 0.61),
       #111
     );
+
     @media (max-width: 744px) {
       height: 18rem;
     }
@@ -168,5 +202,19 @@ const Container = styled.div`
     @media (max-width: 360px) {
       height: 12rem;
     }
+  } */
+
+  .banner-fadeBottom2 {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    width: 100vw;
+    height: 20vh;
+    background-image: linear-gradient(
+      180deg,
+      transparent,
+      rgba(37, 37, 37, 0.61),
+      #111
+    );
   }
 `;
