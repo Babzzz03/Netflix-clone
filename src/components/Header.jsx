@@ -7,7 +7,7 @@ export default function Header(props) {
   const navigate = useNavigate()
     return (
   <Container className='flex a-center j-between' >
-    <div className="logo">
+    <div className="logo"    onClick={() => {navigate("/")}} >
         <img src={logo} alt="logo" />
     </div>
     <button onClick={() => navigate(props.login? '/login' : '/signup')} >

@@ -20,24 +20,23 @@ const [email, setEmail] = useState(undefined)
 const navigate = useNavigate();
     const dispatch = useDispatch();
 
-//  onAuthStateChanged(firebaseAuth, (currentUser) => {
-//    if (currentUser) setEmail(currentUser.email);
-//    else navigate('/login')
-//  });
+ onAuthStateChanged(firebaseAuth, (currentUser) => {
+    if (currentUser) setEmail(currentUser.email);
+   
+});
 
  
  const addToList = async () => {
-  try {
+  if(email){
+     try {
 await axios.post("https://tame-rose-lobster-ring.cyclic.app/api/user/add", {
   email,
   data: movieData,
 });
   } catch(err){
 
-  }
-
-
-
+  } 
+  }else{navigate('/login')}
  }
 
 let id = movieData.id;

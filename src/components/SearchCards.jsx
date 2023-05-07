@@ -20,18 +20,21 @@ export default function Card({ movieData, isLiked = false }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // onAuthStateChanged(firebaseAuth, (currentUser) => {
-  //   if (currentUser) setEmail(currentUser.email);
-  //   else navigate("/login");
-  // });
+ onAuthStateChanged(firebaseAuth, (currentUser) => {
+  if (currentUser) setEmail(currentUser.email);
+   
+  });
 
   const addToList = async () => {
-    try {
+    if( email){
+     try {
       await axios.post("http://localhost:5000/api/user/add", {
         email,
         data: movieData,
       });
-    } catch (err) {}
+    } catch (err) {}    
+    }else{ navigate("/login") }
+ 
   };
 
   let id = movieData.id;

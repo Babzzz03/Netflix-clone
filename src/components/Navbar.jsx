@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import logo from "../assets/netflix-logo.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,7 +10,10 @@ import { API_KEY, TMDB_BASE_URL } from "../utils/constants";
 import SearchPage from "../pages/SearchPage";
 import { fetchDataBySearch } from "../store";
 import { useDispatch, useSelector } from "react-redux";
+
+
 export default function Navbar({ isScrolled }) {
+  const [user, setUser] = useState()
   const navigate = useNavigate();
   const links = [
     { name: "Home", link: "/" },
@@ -19,9 +22,16 @@ export default function Navbar({ isScrolled }) {
     { name: "My List", link: "/mylist" },
   ];
 
-  // onAuthStateChanged(firebaseAuth, (currentUser) => {
-  //   if (!currentUser) navigate("/login");
-  // });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
 
   const [showSearch, setShowSearch] = useState(false);
   const [inputHover, setInputHover] = useState(false);
@@ -35,14 +45,20 @@ export default function Navbar({ isScrolled }) {
 
   const dispatch = useDispatch();
 
-  const searchMovies = (e) => {
-    e.preventDefault();
+  const searchMovies = () => {
+   
     searchKey && dispatch(fetchDataBySearch({ searchKey }));
 
     searchKey && navigate("/search");
    
   };
+// const HandleSignOut = () =>{
+//   if(user){
+//       signOut(firebaseAuth)
+//  navigate("/login");
+//   }
 
+// }
 
   console.log(showSearch);
 
@@ -50,7 +66,7 @@ export default function Navbar({ isScrolled }) {
     <Container>
       <nav className={`flex ${isScrolled ? "scrolled" : ""}`}>
         <div className="left flex a-center ">
-          <div className="brand flex a-center j-center">
+          <div className="brand flex a-center j-center"  onClick={() => {navigate("/")}}>
             <img src={logo} alt="logo" />
           </div>
          
@@ -71,7 +87,7 @@ export default function Navbar({ isScrolled }) {
             onSubmit={searchMovies}
           >
             <button
-              type={"submit"}
+              type="submit"
               onFocus={() => setShowSearch(true)}
               onBlur={() => {
                 if (!inputHover) setShowSearch(false);
@@ -96,7 +112,7 @@ export default function Navbar({ isScrolled }) {
               onChange={(e) => setSearchKey(e.target.value)}
             />
           </form>
-          <button onClick={() => signOut(firebaseAuth)}>
+          <button onClick={() =>  signOut(firebaseAuth)}>
             <FaPowerOff />
           </button>
         </div>
@@ -138,6 +154,7 @@ const Container = styled.div`
     .left {
       gap: 2rem;
       .brand {
+        cursor: pointer;
         img {
           height: 2rem;
           @media (max-width: 60em) {
@@ -250,4 +267,8 @@ const Container = styled.div`
   }
 `;
 
+
+const Form = styled.div`
+
+`;
 
