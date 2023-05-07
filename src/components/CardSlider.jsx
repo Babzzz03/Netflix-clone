@@ -87,11 +87,10 @@ export default function CardSlider({data, title}) {
             <AiOutlineLeft/>  
         </div>
         }
-       {
-         showControls && <div className="slider-action right" onClick={() => handleDirection("right")}>
+        <div className="slider-action right" onClick={() => handleDirection("right")}>
           <AiOutlineRight/>
         </div>
-       }    
+         
       </div>
     </Container>
   );
