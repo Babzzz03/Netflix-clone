@@ -19,9 +19,9 @@ export default function Navbar({ isScrolled }) {
     { name: "My List", link: "/mylist" },
   ];
 
-  onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if (!currentUser) navigate("/login");
-  });
+  // onAuthStateChanged(firebaseAuth, (currentUser) => {
+  //   if (!currentUser) navigate("/login");
+  // });
 
   const [showSearch, setShowSearch] = useState(false);
   const [inputHover, setInputHover] = useState(false);

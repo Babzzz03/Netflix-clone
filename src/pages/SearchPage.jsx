@@ -24,10 +24,10 @@ const [movie, setMovie] = useState([])
   const genresLoaded = useSelector((state) => state.netflix?.genres);
 const searchKey = useParams();
   const [email, setEmail] = useState(undefined);
-  onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if (currentUser) setEmail(currentUser.email);
-    else navigate("/login");
-  });
+  // onAuthStateChanged(firebaseAuth, (currentUser) => {
+  //   if (currentUser) setEmail(currentUser.email);
+  //   else navigate("/login");
+  // });
 
   const dispatch = useDispatch();
 

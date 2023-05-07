@@ -20,10 +20,10 @@ export default function Card({ movieData, isLiked = false }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if (currentUser) setEmail(currentUser.email);
-    else navigate("/login");
-  });
+  // onAuthStateChanged(firebaseAuth, (currentUser) => {
+  //   if (currentUser) setEmail(currentUser.email);
+  //   else navigate("/login");
+  // });
 
   const addToList = async () => {
     try {
