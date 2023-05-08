@@ -6,11 +6,15 @@ import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import { BsFillStarFill, BsFillSuitHeartFill , BsAlarmFill } from "react-icons/bs";
 import {
+  fetchCrew,
   fetchSpecificDataBySearch,
+  removeSelectedCrew,
   removeSelectedMoviesOrShow
  
 } from "../store";
 import Loader from './Loader';
+import CircleRating from './CircleRating';
+import dayjs from 'dayjs';
 
 export default function MovieDetail() {
  
@@ -20,18 +24,28 @@ const selectMoviesOrShow = useSelector(
   (state) => state.netflix.selectMoviesOrShow
 );
 
+const selectCrews = useSelector(
+  (state) => state.netflix.selectCrew
+);
+
 const id = useParams()
 useEffect(() => {
   dispatch(fetchSpecificDataBySearch({id:id.id}));
-
-
  return () => {
   dispatch(removeSelectedMoviesOrShow())
  }
-
-
-
 }, [dispatch, id]);
+
+
+useEffect(() => {
+  dispatch(fetchCrew({id:id.id}))
+
+  return () => {
+    dispatch(removeSelectedCrew())
+  }
+}, [dispatch, id])
+
+
 
  const [isScrolled, setIsScrolled] = useState(false);
  window.onscroll = () => {
@@ -77,7 +91,19 @@ const key = trailer ? trailer?.key : teaser?.key
  }
 
 
-    console.log(selectMoviesOrShow);
+    
+    const director = selectCrews?.crew?.filter((f) => f.job === "Director");
+    const writer = selectCrews?.crew?.filter(
+        (f) => f.job === "Screenplay" || f.job === "Story" || f.job === "Writer"
+    );
+
+    console.log(director);
+    console.log(writer);
+    const toHoursAndMinutes = (totalMinutes) => {
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      return `${hours}h${minutes > 0 ? ` ${minutes}m` : ""}`;
+  };
    
   return (
     <>
@@ -94,15 +120,22 @@ const key = trailer ? trailer?.key : teaser?.key
         >
           <ContainerWrapper>
             <Left>
-              <MovieTitle>{selectMoviesOrShow.original_title}</MovieTitle>
+              <MovieTitle>{selectMoviesOrShow.title}</MovieTitle>
               <MovieRating>
-                <Rating>
+              {selectMoviesOrShow.genres?.map((genre, index) => (
+                    <span key={index}>{genre.name}</span>
+                  ))}
+<div className="circler_rating">
+  <CircleRating rating={selectMoviesOrShow.vote_average.toFixed(1)} />
+</div>
+
+                {/* <Rating>
                   Netflix Rating <BsFillStarFill className="about-icon" />:{" "}
                   {selectMoviesOrShow.popularity}
                 </Rating>
                 <Rating>
                   Netflix Votes <BsFillSuitHeartFill className="about-icon" /> :{" "}
-                  {selectMoviesOrShow.vote_count}
+                  <CircleRating rating={selectMoviesOrShow.vote_average.toFixed(1)} />
                 </Rating>
                 <Rating>
                   Runtime <BsAlarmFill className="about-icon" /> :{" "}
@@ -111,27 +144,46 @@ const key = trailer ? trailer?.key : teaser?.key
                 <Rating>
                   Year <i class="fa-solid fa-calendar"></i> :{" "}
                   {selectMoviesOrShow.release_date}
-                </Rating>
+                </Rating> */}
               </MovieRating>
+              <h6>Overview</h6>
               <MoviePlot>{selectMoviesOrShow.overview}</MoviePlot>
               <MovieInfo>
-                <div>
-                  <span>Genres</span>
-
-                  {selectMoviesOrShow.genres?.map((genre, index) => (
-                    <span key={index}>{genre.name}</span>
-                  ))}
+              <div  className='border-bottom'>
+                  <span className='tag' >Status:</span>
+                  
+                    <span>{selectMoviesOrShow.status}</span>
+                    <span className='tag' >Release Date:</span>
+                    <span>{dayjs(selectMoviesOrShow.release_date).format("MMM D, YYYY")}</span>
+                    <span  className='tag' >Runtime</span> 
+                    <span>{toHoursAndMinutes(selectMoviesOrShow.runtime)}</span>
                 </div>
-                <div>
-                  <span>Languages</span>
-
-                  {selectMoviesOrShow.spoken_languages?.map((genre, index) => (
-                    <span key={index}>{genre.name}</span>
-                  ))}
+                <div className='border-bottom'>
+                  <span className='tag' >Director:</span>
+                     {director?.length > 0 && (
+                        <span className="text">
+                        {director?.map((d, i) => (
+                            <span key={i}>
+                                {d.name}
+                                {director.length -
+                                    1 !==
+                                    i && ", "}
+                            </span>
+                        ))}
+                    </span>
+                     )}
+                  
+                                            
+                  
+                </div>
+                <div  className='border-bottom'>
+                  <span  className='tag' >Writers:</span>
+                  {writer?.map((d, i) => (<span key={i}>{d.name}{writer.length -1 != i && ", "}</span>))}
                 </div>
               </MovieInfo>
             </Left>
             <Right>{selectMoviesOrShow.videos ? renderTrailer() : null}</Right>
+            <ButtomGradiant> </ButtomGradiant>
           </ContainerWrapper>
         </Container>
       )}
@@ -144,8 +196,7 @@ const key = trailer ? trailer?.key : teaser?.key
 const Container = styled.div`
   display: flex;
   justify-content: space-evenly;
-  padding: 2rem;
-
+  
   color: #e9dfdf;
   font-weight: 400;
   object-fit: contain;
@@ -163,9 +214,10 @@ const Container = styled.div`
 `;
 
 const ContainerWrapper = styled.div`
-  background: rgba(0, 0, 0, 0.8);
+background: rgb(0,0,0);
+background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5776435574229692) 35%, rgba(0,0,0,0) 100%);
   border-radius: 9px;
-  backdrop-filter: blur(4px);
+  position: relative;
   display: flex;
   height: 100%;
   width: 100%;
@@ -177,13 +229,20 @@ const ContainerWrapper = styled.div`
 `;
 
 const Left = styled.div`
-  min-width: 44vw;
 
+  min-width: 44vw;
+margin-top: 40px;
   padding: 2rem;
   @media (max-width: 744px) {
     min-width: 94vw;
     padding: 1rem;
     padding-top: 6rem;
+  }
+  h6{
+    margin-top: 14px;
+   
+    font-size: 27px;
+    font-weight: 400;
   }
 `;
 
@@ -191,6 +250,7 @@ const Left = styled.div`
 const MovieTitle = styled.div`
   margin-top: 20px;
   font-size: 40px;
+  font-weight: 700;
   color: #f3e9e9;
   @media (max-width: 744px) {
     font-size: 24px;
@@ -204,6 +264,21 @@ const MovieRating = styled.div`
   margin-top: 20px;
   color: #8e8a8a;
   display: flex;
+  justify-content: space-between;
+  width: 70%;
+  position: relative;
+  .circler_rating{
+position: absolute;
+top: -20px;
+right: -100px;
+width: 70px;
+  }
+  span{
+    background-color: #c23535;
+    color: white;
+    padding: 4px 14px;
+    border-radius: 4px;
+  }
   @media (max-width: 744px) {
     font-size: 0.6rem;
     padding-left: 0rem;
@@ -246,9 +321,14 @@ const MovieInfo = styled.div`
       margin-right: 0.7vh;
       font-size: 13px;
     }
-  }
 
-  div span:first-child {
+   
+  }
+  .border-bottom {
+      border-bottom: 1px solid #696666;
+    }
+
+  .tag {
     padding: 10px 0;
     color: #ffffff;
     font-weight: 600;
@@ -266,6 +346,16 @@ const Right = styled.div`
   height: 90vh;
   position: relative;
 
+`;
+
+const ButtomGradiant = styled.div`
+position: absolute;
+bottom: 0;
+height: 70px;
+width: 100vw;
+background: rgb(0,0,0);
+background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5776435574229692) 61%, rgba(0,0,0,0.9922093837535014) 100%);
+z-index: 100;
 `;
 
 

@@ -93,6 +93,25 @@ export const fetchDataByGenre = createAsyncThunk(
 
 
 
+export const fetchCrew = createAsyncThunk(
+  "netflix/crew",
+  async ({ id, type }, thunkApi) => {
+    console.log(id);
+
+    
+   const 
+     data
+    = await axios.get(
+     `${TMDB_BASE_URL}/movie/${id}/credits?api_key=${API_KEY}&language=en-US`,     
+   );
+   
+
+   return (data.data)
+    // return getRawData(`${TMDB_BASE_URL}/discover/${type}?api_key=${API_KEY}&with_genres=${genres}`)
+  }
+);
+
+
 
 
 export const fetchSpecificDataBySearch = createAsyncThunk(
@@ -168,6 +187,9 @@ const NetflixSlice = createSlice({
       removeSelectedMoviesOrShow: (state) => {
         state.selectMoviesOrShow = {};
       },
+      removeSelectedCrew: (state) => {
+        state.selectCrew = {};
+      },
        removeMoviesOrShow: (state) => {
         state.movies = [];
       }
@@ -205,6 +227,12 @@ const NetflixSlice = createSlice({
                          state.selectMoviesOrShow = action.payload;
                        }
                      );
+                     builder.addCase(
+                      fetchCrew.fulfilled,
+                      (state, action) => {
+                        state.selectCrew = action.payload;
+                      }
+                    );
     },
 });
 
@@ -215,4 +243,4 @@ export const store = configureStore({
 });
 
 
-export const { removeSelectedMoviesOrShow, removeMoviesOrShow } = NetflixSlice.actions;
+export const { removeSelectedMoviesOrShow, removeMoviesOrShow, removeSelectedCrew } = NetflixSlice.actions;
